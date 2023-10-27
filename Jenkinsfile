@@ -31,16 +31,16 @@ pipeline {
 
     stage('Release'){
       when {
-        expression { env.TAG_NAME ==~ ".*" }
+        expression { env.2.0.0 ==~ ".*" }
       }
       steps {
-        sh 'zip -r frontend-${TAG_NAME}.zip static asset-manifest.json index.html robots.txt'
-        sh 'curl -sSf -u "admin:Admin123" -X PUT -T frontend-${TAG_NAME}.zip "http://artifactory.sddevops18.online:8081/artifactory/frontend/frontend-${TAG_NAME}.zip"'   
+        sh 'zip -r frontend-${2.0.0}.zip static asset-manifest.json index.html robots.txt'
+        sh 'curl -sSf -u "admin:Admin123" -X PUT -T frontend-${2.0.0}.zip "http://artifactory.sddevops18.online:8081/artifactory/frontend/frontend-${2.0.0}.zip"'   
       }
      steps {
-        sh 'docker build -t 624783896224.dkr.ecr.us-east-1.amazonaws.com/frontend:${TAG_NAME} .'
+        sh 'docker build -t 624783896224.dkr.ecr.us-east-1.amazonaws.com/frontend:${2.0.0} .'
         sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 624783896224.dkr.ecr.us-east-1.amazonaws.com'
-        sh 'docker push 624783896224.dkr.ecr.us-east-1.amazonaws.com/frontend:${TAG_NAME}'
+        sh 'docker push 624783896224.dkr.ecr.us-east-1.amazonaws.com/frontend:${2.0.0}'
       }
     }
 
